@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the console for AirBnB"""
 import cmd
+import re
 from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
@@ -51,6 +52,8 @@ class HBNBCommand(cmd.Cmd):
                 cast = str
                 if match:
                     value = match.group(1)
+                    value = value.replace('_', ' ')
+                    value = re.sub(r'(?<!\\)"', r'\\"', value)
                 else:
                     value = pair[1]
                     if "." in value:
