@@ -18,6 +18,7 @@ This is the console /command interpreter for the Holberton Airbnb clone project.
 * all - show all objects, of one type or all types
 * quit/EOF - quit the console
 * help - see descriptions of commands
+* delete - deletes obj if exists
 
 To start, navigate to the project folder and enter `./console.py` in the shell.
 
