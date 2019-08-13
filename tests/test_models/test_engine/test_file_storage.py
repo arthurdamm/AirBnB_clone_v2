@@ -99,5 +99,26 @@ class TestFileStorage(unittest.TestCase):
         fs.save()
         self.assertIn(new_state, fs.all(State).values())
 
+    def test_all_no_specification(self):
+        ''' tests all when no class is passed '''
+        fs = FileStorage()
+        new_state1 = State()
+        fs.new(new_state1)
+        fs.save()
+        new_user1 = User()
+        fs.new(new_user1)
+        fs.save()
+        self.assertEqual(8, len(fs.all()))
+
+    def test_delete_method(self):
+        ''' tests delete method '''
+        fs = FileStorage()
+        new_state = State()
+        fs.new(new_state)
+        fs.save()
+        self.assertIn(new_state, fs.all(State).values())
+        fs.delete(new_state)
+        self.assertNotIn(new_state, fs.all(State).values())
+
 if __name__ == "__main__":
     unittest.main()
