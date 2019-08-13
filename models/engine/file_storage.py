@@ -26,8 +26,8 @@ class FileStorage:
             obj: given object
         """
         key = "{}.{}".format(type(obj).__name__, obj.id)
-        if key in self.all():
-            del self.all()[key]
+        if key in self.__objects():
+            del self.__objects[key]
             self.save()
 
     def all(self, cls=None):
