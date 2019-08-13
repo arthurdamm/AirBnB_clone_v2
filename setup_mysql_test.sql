@@ -1,5 +1,4 @@
 -- Creates the database hbnb_test_db with specified paramenters
-
 -- Create database
 CREATE DATABASE IF NOT EXISTS hbnb_test_db;
 -- Creates user if doesn't exist
