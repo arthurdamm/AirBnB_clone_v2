@@ -2,7 +2,7 @@
 """Module for DBstorage class"""
 from os import getenv
 from sqlalchemy import (create_engine)
-from sqlalchemy.orm import sessionmaker
+
 
 class DBStorage():
     """Class for database storage"""
@@ -12,13 +12,6 @@ class DBStorage():
     def __init__(self):
         """Initializes storage"""
         from models.base_model import Base
-        
-        s = 'mysql+mysqldb://{}:{}@{}:3306/{}'.format(getenv("HBNB_MYSQL_USER"),
-                    getenv("HBNB_MYSQL_PWD"),
-                    getenv("HBNB_MYSQL_HOST"),
-                    getenv("HBNB_MYSQL_DB"))
-        print(s)
-        print("FOO!")
 
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}:3306/{}'
@@ -67,8 +60,10 @@ class DBStorage():
     def reload(self):
         """create all tables in the db"""
         from models.state import State
-        from modesl.city import City
+        from models.city import City
+        from sqlalchemy.orm import sessionmaker, scoped_session
 
-        session_factory = sessionmaker(bind=engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
