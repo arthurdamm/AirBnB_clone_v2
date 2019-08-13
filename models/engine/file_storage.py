@@ -25,12 +25,15 @@ class FileStorage:
         Args:
             obj: given object
         """
-        objCheck = ".".join([type(obj).__name__, obj.id])
-        if objCheck in self.__objects:
-            del self.__objects[objCheck]
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        if key in self.__objects:
+            del self.__objects[key]
+            self.save()
 
     def all(self, cls=None):
         """returns a dictionary
+        Args:
+            cls: class type to filter return by
         Return:
             returns a dictionary of __object
         """
