@@ -12,15 +12,22 @@ class DBStorage():
     def __init__(self):
         """Initializes storage"""
         from models.base_model import Base
+        
+        s = 'mysql+mysqldb://{}:{}@{}:3306/{}'.format(getenv("HBNB_MYSQL_USER"),
+                    getenv("HBNB_MYSQL_PWD"),
+                    getenv("HBNB_MYSQL_HOST"),
+                    getenv("HBNB_MYSQL_DB"))
+        print(s)
+        print("FOO!")
 
         self.__engine = create_engine(
-            'mysql+mysqldb://{}:{}{}/{}'
+            'mysql+mysqldb://{}:{}@{}:3306/{}'
             .format(getenv("HBNB_MYSQL_USER"),
                     getenv("HBNB_MYSQL_PWD"),
                     getenv("HBNB_MYSQL_HOST"),
                     getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
-        Base.metadata.create_all(engine)
+        Base.metadata.create_all(self.__engine)
         # TODO: or before create_all?
         if getenv("HBNB_ENV") == "test":
             metadata.drop_all()
