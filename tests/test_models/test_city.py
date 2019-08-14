@@ -5,6 +5,7 @@ import os
 from models.city import City
 from models.base_model import BaseModel
 import pep8
+from os import getenv
 
 
 class TestCity(unittest.TestCase):
@@ -13,14 +14,25 @@ class TestCity(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """set up for test"""
+
+        from models.state import State
+        cls.state = State()
+        cls.state.name = "California"
+        cls.state.save()
         cls.city = City()
         cls.city.name = "LA"
-        cls.city.state_id = "CA"
+        cls.city.state_id = cls.state.id
 
     @classmethod
-    def teardown(cls):
+    def tearDownClass(cls):
         """at the end of the test this will tear it down"""
+        from models import storage
+
+        # TODO: kill orphan
+        storage.delete(cls.city)
+        storage.delete(cls.state)
         del cls.city
+        del cls.state
 
     def tearDown(self):
         """teardown"""

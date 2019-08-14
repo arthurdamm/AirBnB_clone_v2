@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Module for DBstorage class"""
 from os import getenv
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine, MetaData
 
 
 class DBStorage():
@@ -11,7 +11,6 @@ class DBStorage():
 
     def __init__(self):
         """Initializes storage"""
-        from models.base_model import Base
 
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}:3306/{}'
@@ -20,10 +19,6 @@ class DBStorage():
                     getenv("HBNB_MYSQL_HOST"),
                     getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
-        Base.metadata.create_all(self.__engine)
-        # TODO: or before create_all?
-        if getenv("HBNB_ENV") == "test":
-            metadata.drop_all()
 
     def all(self, cls=None):
         """returns all objects of cls"""
@@ -56,12 +51,18 @@ class DBStorage():
         """delete obj from db"""
         if obj:
             self.__session.delete(obj)
+            self.save()
 
     def reload(self):
         """create all tables in the db"""
+        from models.base_model import Base
         from models.state import State
         from models.city import City
         from sqlalchemy.orm import sessionmaker, scoped_session
+
+        if getenv("HBNB_ENV") == "test":
+            Base.metadata.drop_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
 
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
