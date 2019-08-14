@@ -18,8 +18,7 @@ class City(BaseModel, Base):
                       nullable=False)
     places = relationship(
         "Place",
-        cascade="all,delete,delete-orphan",
-        backref=backref("cities", cascade="all,delete,delete-orphan"),
-        passive_deletes=True,
-        single_parent=True)
+        cascade="all",
+        backref=backref("cities", cascade="all"),
+        passive_deletes=True)
     # TODO: we need single_parent=True here?
