@@ -27,7 +27,11 @@ class DBStorage():
 
         class_list = [
             State,
-            City
+            City,
+            User,
+            Amenity,
+            Place,
+            Review
         ]
         rows = []
         if cls:
