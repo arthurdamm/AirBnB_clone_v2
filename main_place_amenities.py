@@ -3,9 +3,12 @@
 """
 from models import *
 
+print("BEFORE")
 # creation of a State
 state = State(name="California")
+print("MADE!!!")
 state.save()
+print("AFTER")
 
 # creation of a City
 city = City(state_id=state.id, name="San Francisco")

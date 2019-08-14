@@ -78,18 +78,19 @@ class Place(BaseModel, Base):
         """Return list of review instances for file storage
         matching place_id
         """
+        from models import storage
         return {k: v for k, v in storage.all().items()
                 if v.place_id == self.id}
 
     @property
     def amenities(self):
         """returns list of amenity ids"""
-        return {k: v for k, v in storage.all().items()
-                if v.amenity_id == self.id}
+        from models import storage
+        return self.amenity_ids
 
     @amenities.setter
     def amenities(self, obj):
         """appends amenity id to amenity_id to amentiy_ids"""
         # TODO duplicate ids?
-        if type(obj) is Amenity and obj.id not in amenity_ids:
-            amenity_ids.append(obj.id)
+        if type(obj) is Amenity and obj.id not in self.amenity_ids:
+            self.amenity_ids.append(obj.id)
