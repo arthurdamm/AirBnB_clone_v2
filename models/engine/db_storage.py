@@ -19,9 +19,6 @@ class DBStorage():
                     getenv("HBNB_MYSQL_HOST"),
                     getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
-        if getenv("HBNB_ENV") == "test":
-            Base.metadata.drop_all(self.__engine)
-        Base.metadata.create_all(self.__engine)
 
     def all(self, cls=None):
         """returns all objects of cls"""
@@ -34,7 +31,8 @@ class DBStorage():
 
         class_list = [
             State,
-            City
+            City,
+            User
         ]
         rows = []
         if cls:
@@ -71,6 +69,9 @@ class DBStorage():
         from models.place import Place
         from sqlalchemy.orm import sessionmaker, scoped_session
 
+        if getenv("HBNB_ENV") == "test":
+            Base.metadata.drop_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
