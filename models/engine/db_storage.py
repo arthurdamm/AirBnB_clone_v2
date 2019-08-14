@@ -11,7 +11,7 @@ class DBStorage():
 
     def __init__(self):
         """Initializes storage"""
-
+        from models.base_model import Base
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}:3306/{}'
             .format(getenv("HBNB_MYSQL_USER"),
@@ -19,6 +19,9 @@ class DBStorage():
                     getenv("HBNB_MYSQL_HOST"),
                     getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
+        if getenv("HBNB_ENV") == "test":
+            Base.metadata.drop_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
 
     def all(self, cls=None):
         """returns all objects of cls"""
@@ -67,10 +70,6 @@ class DBStorage():
         from models.review import Review
         from models.place import Place
         from sqlalchemy.orm import sessionmaker, scoped_session
-
-        if getenv("HBNB_ENV") == "test":
-            Base.metadata.drop_all(self.__engine)
-        Base.metadata.create_all(self.__engine)
 
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
