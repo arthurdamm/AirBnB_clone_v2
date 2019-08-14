@@ -1,8 +1,22 @@
 #!/usr/bin/python3
 """This is the place class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Float, Integer, ForeignKey
+from sqlalchemy import Column, String, Float, Integer, ForeignKey, Table
 from sqlalchemy.orm import relationship, backref
+
+
+place_amenity = Table("association", Base.metadata,
+                      Column("place_id",
+                             String(60),
+                             ForeignKey("places.id"),
+                             primary_key=True,
+                             nullable=False),
+                      Column("amenity_id",
+                             String(60),
+                             ForeignKey("amenities.id"),
+                             primary_key=True,
+                             nullable=False))
+# TODO: 2 primary_keys?? wtf
 
 
 class Place(BaseModel, Base):
@@ -47,13 +61,17 @@ class Place(BaseModel, Base):
                       nullable=True)
     longitude = Column(Float,
                        nullable=True)
-    # TODO: wtf is with this list?
     amenity_ids = []
     reviews = relationship(
         "Review",
         cascade="all,delete",
         backref=backref("place", cascade="all,delete"),
         passive_deletes=True)
+    amenities = relationship(
+        "Amenity",
+        secondary=place_amenity,
+        viewonly=False,
+        backref=backref("place_amenities", cascade="all,delete"))
 
     @property
     def reviews(self):
@@ -62,3 +80,16 @@ class Place(BaseModel, Base):
         """
         return {k: v for k, v in storage.all().items()
                 if v.place_id == self.id}
+
+    @property
+    def amenities(self):
+        """returns list of amenity ids"""
+        return {k: v for k, v in storage.all().items()
+                if v.amenity_id == self.id}
+
+    @amenities.setter
+    def amenities(self, obj):
+        """appends amenity id to amenity_id to amentiy_ids"""
+        # TODO duplicate ids?
+        if type(obj) is Amenity and obj.id not in amenity_ids:
+            amenity_ids.append(obj.id)
