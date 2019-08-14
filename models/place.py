@@ -4,23 +4,11 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Float, Integer, ForeignKey, Table
 from sqlalchemy.orm import relationship, backref
 
-
-place_amenity = Table("association", Base.metadata,
-                      Column("place_id",
-                             String(60),
-                             ForeignKey("places.id"),
-                             primary_key=True,
-                             nullable=False),
-                      Column("amenity_id",
-                             String(60),
-                             ForeignKey("amenities.id"),
-                             primary_key=True,
-                             nullable=False))
 # TODO: 2 primary_keys?? wtf
 
 
 class Place(BaseModel, Base):
-    """This is the class for Place
+    """This is the class for place
     Attributes:
         city_id: city id
         user_id: user id
@@ -62,16 +50,18 @@ class Place(BaseModel, Base):
     longitude = Column(Float,
                        nullable=True)
     amenity_ids = []
+
     reviews = relationship(
         "Review",
         cascade="all,delete",
         backref=backref("place", cascade="all,delete"),
         passive_deletes=True)
+
     amenities = relationship(
         "Amenity",
-        secondary=place_amenity,
+        secondary="place_amenity",
         viewonly=False,
-        backref=backref("place_amenities", cascade="all,delete"))
+        back_populates="place_amenities")
 
     @property
     def reviews(self):
@@ -81,16 +71,3 @@ class Place(BaseModel, Base):
         from models import storage
         return {k: v for k, v in storage.all().items()
                 if v.place_id == self.id}
-
-    @property
-    def amenities(self):
-        """returns list of amenity ids"""
-        from models import storage
-        return self.amenity_ids
-
-    @amenities.setter
-    def amenities(self, obj):
-        """appends amenity id to amenity_id to amentiy_ids"""
-        # TODO duplicate ids?
-        if type(obj) is Amenity and obj.id not in self.amenity_ids:
-            self.amenity_ids.append(obj.id)
