@@ -2,6 +2,7 @@
 """This is the city class"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
 
 
 class City(BaseModel, Base):
@@ -15,3 +16,10 @@ class City(BaseModel, Base):
     state_id = Column(String(60),
                       ForeignKey("states.id", ondelete="CASCADE"),
                       nullable=False)
+    places = relationship(
+        "Place",
+        cascade="all,delete,delete-orphan",
+        backref=backref("cities", cascade="all,delete,delete-orphan"),
+        passive_deletes=True,
+        single_parent=True)
+    # TODO: we need single_parent=True here?
