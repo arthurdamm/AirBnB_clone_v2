@@ -18,6 +18,7 @@ class Place(BaseModel, Base):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
+    __tablename__ = "places"
     city_id = ""
     user_id = ""
     name = ""

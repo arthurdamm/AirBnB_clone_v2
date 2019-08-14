@@ -11,6 +11,7 @@ class User(BaseModel, Base):
         first_name: first name
         last_name: last name
     """
+    __tablename__ = "users"
     email = ""
     password = ""
     first_name = ""
