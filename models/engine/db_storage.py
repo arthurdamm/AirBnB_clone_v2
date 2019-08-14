@@ -33,7 +33,8 @@ class DBStorage():
             State,
             City,
             User,
-            Place
+            Place,
+            Review
         ]
         rows = []
         if cls:

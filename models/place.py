@@ -2,6 +2,7 @@
 """This is the place class"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Float, Integer, ForeignKey
+from sqlalchemy.orm import relationship, backref
 
 
 class Place(BaseModel, Base):
@@ -48,3 +49,16 @@ class Place(BaseModel, Base):
                        nullable=True)
     # TODO: wtf is with this list?
     amenity_ids = []
+    reviews = relationship(
+        "Review",
+        cascade="all,delete",
+        backref=backref("place", cascade="all,delete"),
+        passive_deletes=True)
+
+    @property
+    def reviews(self):
+        """Return list of review instances for file storage
+        matching place_id
+        """
+        return {k: v for k, v in storage.all().items()
+                if v.place_id == self.id}

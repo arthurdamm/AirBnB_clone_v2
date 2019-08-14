@@ -24,4 +24,10 @@ class User(BaseModel, Base):
         backref=backref("user", cascade="all,delete"),
         passive_deletes=True,
         single_parent=True)
-    # TODO: we need single_parent=True here?
+    # TODO: wtf single_parent
+    reviews = relationship(
+        "Review",
+        cascade="all,delete",
+        backref=backref("user", cascade="all,delete"),
+        passive_deletes=True,
+        single_parent=True)
