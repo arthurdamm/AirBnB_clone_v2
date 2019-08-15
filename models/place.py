@@ -3,8 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Float, Integer, ForeignKey, Table
 from sqlalchemy.orm import relationship, backref
-
-# TODO: 2 primary_keys?? wtf
+from os import getenv
 
 
 class Place(BaseModel, Base):
@@ -51,23 +50,37 @@ class Place(BaseModel, Base):
                        nullable=True)
     amenity_ids = []
 
-    reviews = relationship(
-        "Review",
-        cascade="all,delete",
-        backref=backref("place", cascade="all,delete"),
-        passive_deletes=True)
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship(
+            "Review",
+            cascade="all,delete",
+            backref=backref("place", cascade="all,delete"),
+            passive_deletes=True)
 
-    amenities = relationship(
-        "Amenity",
-        secondary="place_amenity",
-        viewonly=False,
-        back_populates="place_amenities")
+        amenities = relationship(
+            "Amenity",
+            secondary="place_amenity",
+            viewonly=False,
+            back_populates="place_amenities")
 
-    @property
-    def reviews(self):
-        """Return list of review instances for file storage
-        matching place_id
-        """
-        from models import storage
-        return {k: v for k, v in storage.all().items()
-                if v.place_id == self.id}
+    else:
+        @property
+        def reviews(self):
+            """Return list of review instances for file storage
+            matching place_id
+            """
+            from models import storage
+            return {k: v for k, v in storage.all().items()
+                    if v.place_id == self.id}
+
+        @property
+        def amenities(self):
+            """returns list of amenity ids"""
+            from models import storage
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, obj):
+            """appends amenity id to amenity_ids"""
+            if type(obj) is Amenity and obj.id not in self.amenity_ids:
+                self.amenity_ids.append(obj.id)

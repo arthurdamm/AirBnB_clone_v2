@@ -3,18 +3,20 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Table, ForeignKey
 from sqlalchemy.orm import relationship
+from os import getenv
 
-place_amenity = Table("place_amenity", Base.metadata,
-                      Column("place_id",
-                             String(60),
-                             ForeignKey("places.id"),
-                             primary_key=True,
-                             nullable=False),
-                      Column("amenity_id",
-                             String(60),
-                             ForeignKey("amenities.id"),
-                             primary_key=True,
-                             nullable=False))
+if getenv("HBNB_TYPE_STORAGE") == "db":
+    place_amenity = Table("place_amenity", Base.metadata,
+                          Column("place_id",
+                                 String(60),
+                                 ForeignKey("places.id"),
+                                 primary_key=True,
+                                 nullable=False),
+                          Column("amenity_id",
+                                 String(60),
+                                 ForeignKey("amenities.id"),
+                                 primary_key=True,
+                                 nullable=False))
 
 
 class Amenity(BaseModel, Base):
@@ -26,8 +28,9 @@ class Amenity(BaseModel, Base):
     name = Column(String(128),
                   nullable=False)
 
-    place_amenities = relationship(
-        "Place",
-        secondary=place_amenity,
-        viewonly=False,
-        back_populates="amenities")
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        place_amenities = relationship(
+            "Place",
+            secondary=place_amenity,
+            viewonly=False,
+            back_populates="amenities")
