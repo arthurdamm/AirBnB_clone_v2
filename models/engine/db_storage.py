@@ -34,7 +34,8 @@ class DBStorage():
             City,
             User,
             Place,
-            Review
+            Review,
+            Amenity
         ]
         rows = []
         if cls:
