@@ -9,7 +9,7 @@
 In this project, we expanded on the last AirBnB project, which focused on the console, and added SQLALchmeny functionality to make sure class attribute IDs could be linked together.
 To start, we forked [this repository](https://github.com/yook00627/AirBnB_clone), which acted as a base for the rest of our code.
 
-Using this repo, the developer can either store their data in a file storage system. Part of our task was to update this codebase to include MySQL integration.
+Using this repo, the developer can either store their data in a file storage system. Part of our task was to refactor this codebase to include MySQL integration via SQLAlchemy.
 
 ## Background Context
 Environment variables will be your best friend for this project!
