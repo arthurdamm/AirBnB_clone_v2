@@ -799,8 +799,8 @@ The [engine](https://github.com/MCavigli/AirBnB_clone_v2/tree/master/models/engi
 
 File | Description
 ---- | ----------
-[file_storage.py](https://github.com/MCavigli/AirBnB_clone_v2/blob/master/models/engine/file_storage.py | Serializes and deserializes instances to and from  a JSON file)
-[db_storage.py]()https://github.com/MCavigli/AirBnB_clone_v2/blob/master/models/engine/db_storage.py) | Initializes a MySQL database that stores instances
+[file_storage.py](https://github.com/MCavigli/AirBnB_clone_v2/blob/master/models/engine/file_storage.py) | Serializes and deserializes instances to and from  a JSON file)
+[db_storage.py](https://github.com/MCavigli/AirBnB_clone_v2/blob/master/models/engine/db_storage.py) | Initializes a MySQL database that stores instances
 
 ## Tests
 
