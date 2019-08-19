@@ -14,3 +14,7 @@ def do_pack():
         os.mkdir(savedir)
     with tarfile.open(savedir + filename, "w:gz") as tar:
         tar.add("web_static", arcname=os.path.basename("web_static"))
+    if os.path.exists(savedir + filename):
+        return savedir + filename
+    else:
+        return None
