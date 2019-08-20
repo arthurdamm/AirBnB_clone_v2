@@ -3,9 +3,12 @@
 
 from fabric.api import *
 import os
+from datetime import datetime
+import tarfile
 
 env.hosts = ["34.73.8.171", "34.74.18.52"]
 env.user = "ubuntu"
+
 
 def deploy():
     """ Calls all tasks to deploy archive to webservers"""
@@ -13,6 +16,7 @@ def deploy():
     if not tar:
         return False
     return do_deploy(tar)
+
 
 def do_pack():
     """ Creates tar archive"""
@@ -26,6 +30,7 @@ def do_pack():
         return savedir + filename
     else:
         return None
+
 
 def do_deploy(archive_path):
     """ Deploys archive to servers"""
