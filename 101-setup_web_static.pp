@@ -15,7 +15,7 @@ exec { '/usr/bin/env apt-get -y update' : }
 -> file_line { 'add location' :
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
-  line   => "\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}",
+  line   => "\tlocation /hbnb_static { alias /data/web_static/current/; }",
   after  => "\tadd_header X-Served-By ${hostname};",
 }
 -> service { 'nginx':
