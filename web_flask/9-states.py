@@ -13,12 +13,12 @@ def closedb(foo):
     storage.close()
 
 
-@app.route('/states', strict_slashes=False, defaults={'id': 'ally'})
+@app.route('/states', strict_slashes=False, defaults={'id': None})
 @app.route('/states/<id>', strict_slashes=False)
 def states(id):
     """Route /states"""
     state = states = None
-    if id == 'ally':
+    if not id:
         states = list(storage.all(State).values())
         states.sort(key=lambda state: state.name)
     else:
