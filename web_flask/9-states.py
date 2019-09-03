@@ -27,7 +27,7 @@ def states(id):
             state = states[key]
         else:
             state = None
-        states = None
+        states = []
     return render_template('9-states.html', states=states, state=state)
 
 
