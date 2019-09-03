@@ -20,7 +20,6 @@ def states(id):
     state = states = None
     if not id:
         states = list(storage.all(State).values())
-        states.sort(key=lambda state: state.name)
     else:
         states = storage.all(State)
         key = "State." + id
