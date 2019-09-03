@@ -28,7 +28,7 @@ def states(id):
         else:
             state = None
         states = []
-    return render_template('9-states.html', states=states, state=state)
+    return render_template('9-states.html', **locals())
 
 
 if __name__ == '__main__':
