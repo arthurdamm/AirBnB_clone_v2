@@ -50,6 +50,8 @@ section.filters div ul.popover {
   left: -1px;
   display: none;
   z-index: 1;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
 section.filters div:hover ul.popover {
