@@ -37,7 +37,6 @@ section.filters div h4 {
 
 section.filters div ul.popover {
   margin-top: 70px;
-  padding-left: 50px;
   padding-top: 20px;
   padding-bottom: 20px;
   box-sizing: border-box;
@@ -48,10 +47,10 @@ section.filters div ul.popover {
   position: absolute;
   top: 0;
   left: -1px;
-  display: none;
   z-index: 1;
   max-height: 300px;
   overflow-y: scroll;
+  display: none;
 }
 
 section.filters div:hover ul.popover {
@@ -62,15 +61,24 @@ ul {
   list-style: none;
 }
 
-section.filters div ul.popover li {
+section.filters div ul.popover > li {
   padding-bottom: 5px;
+}
+
+section.filters div.amenities ul.popover > li {
+  padding-left: 50px;
 }
 
 section.filters div ul.popover ul {
   padding-bottom: 5px;
 }
 
+section.filters div ul.popover ul {
+  padding-left: 50px;
+}
+
 section.filters div ul.popover h2 {
+  padding-left: 25px;
   padding-bottom: 5px;
   font-size: 16px;
 }
