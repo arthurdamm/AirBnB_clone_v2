@@ -73,7 +73,6 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("quit")
             self.assertEqual('', f.getvalue())
 
-"""
     @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") == "db",
                      "Not using db")
     def test_create(self):
@@ -117,7 +116,6 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as foo:
             s = "destroy State " + s
             self.consol.onecmd(s)
-            """
 
     def test_show(self):
         """Test show command inpout"""
